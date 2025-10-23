@@ -1,0 +1,42 @@
+# Example Terraform Variables File
+# Copy this to terraform.tfvars and fill in your actual values
+# DO NOT commit terraform.tfvars to version control!
+
+# Azure Configuration
+subscription_id = "00000000-0000-0000-0000-000000000000"  # Your Azure Subscription ID
+tenant_id       = "00000000-0000-0000-0000-000000000000"  # Your Azure Tenant ID
+app_name        = "CortexCloudApp"
+
+# Cortex Cloud Configuration
+cortex_api_url     = "https://api.prismacloud.io"  # Or your specific region
+cortex_access_key  = "your-cortex-access-key-here"
+cortex_secret_key  = "your-cortex-secret-key-here"
+
+# Azure Account Configuration
+azure_account_name = "Azure-Prod"
+environment        = "prod"
+azure_region       = "eastus"
+
+# Cortex Cloud Features
+# Select which security features to enable in Cortex Cloud
+enable_cloud_visibility        = true   # Cloud Visibility Compliance and Governance
+enable_agentless_scanning      = true   # VM and container vulnerability scanning
+enable_serverless_scanning     = true   # Azure Functions scanning
+enable_agent_based_protection  = false  # Defender agents (requires Contributor)
+enable_remediation             = false  # Auto-remediation (requires Contributor)
+
+# Azure Infrastructure Options
+# These are typically enabled for security best practices
+monitor_flow_logs  = true
+enable_audit_logs  = true
+enable_azure_ad    = true
+
+# Log Retention
+log_retention_days = 30
+
+# Tags (optional)
+tags = {
+  "Project"     = "Cortex Cloud CSPM"
+  "ManagedBy"   = "Terraform"
+  "Environment" = "Production"
+}

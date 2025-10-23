@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Cortex Cloud Onboarding</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .button-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .button-secondary:hover {
+            background: #e0e0e0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-step {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .progress-step.active {
+            background: #e3e7ff;
+            border-left-color: #667eea;
+        }
+
+        .progress-step.completed {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+
+        .progress-step.failed {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .output-terminal {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output-terminal::-webkit-scrollbar-track {
+            background: #2e2e2e;
+        }
+
+        .output-terminal::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .output-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .output-box h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .output-box code {
+            background: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: block;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .prerequisite-check {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .prerequisite-check.success {
+            background: #d4edda;
+        }
+
+        .prerequisite-check.failed {
+            background: #f8d7da;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-badge.success {
+            background: #28a745;
+            color: white;
+        }
+
+        .status-badge.failed {
+            background: #dc3545;
+            color: white;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        function App() {
+            const [currentStep, setCurrentStep] = useState('form');
+            const [formData, setFormData] = useState({
+                subscriptionId: '',
+                tenantId: '',
+                appName: 'CortexCloudApp',
+                cortexApiUrl: 'https://api.prismacloud.io',
+                cortexAccessKey: '',
+                cortexSecretKey: '',
+                azureAccountName: 'Azure-Prod',
+                // Cortex Cloud Features
+                features: {
+                    cloudVisibility: true,
+                    agentlessScanning: true,
+                    serverlessScanning: true,
+                    agentBasedProtection: false,
+                    remediation: false
+                },
+                // Azure Infrastructure Options
+                monitorFlowLogs: true,
+                environment: 'prod',
+                azureRegion: 'eastus',
+                logRetentionDays: 30
+            });
+            const [prerequisites, setPrerequisites] = useState(null);
+            const [deploymentId, setDeploymentId] = useState(null);
+            const [deploymentStatus, setDeploymentStatus] = useState('');
+            const [output, setOutput] = useState('');
+            const [terminalOutput, setTerminalOutput] = useState([]);
+            const [error, setError] = useState('');
+            const wsRef = useRef(null);
+
+            useEffect(() => {
+                checkPrerequisites();
+            }, []);
+
+            const checkPrerequisites = async () => {
+                try {
+                    const response = await fetch('http://localhost:3001/api/check-prerequisites');
+                    const data = await response.json();
+                    setPrerequisites(data);
+                } catch (error) {
+                    console.error('Error checking prerequisites:', error);
+                }
+            };
+
+            const handleInputChange = (e) => {
+                const { name, value, type, checked } = e.target;
+
+                // Handle nested feature checkboxes
+                if (name.startsWith('feature_')) {
+                    const featureName = name.replace('feature_', '');
+                    setFormData(prev => ({
+                        ...prev,
+                        features: {
+                            ...prev.features,
+                            [featureName]: checked
+                        }
+                    }));
+                } else {
+                    setFormData(prev => ({
+                        ...prev,
+                        [name]: type === 'checkbox' ? checked : value
+                    }));
+                }
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setCurrentStep('deploying');
+                setError('');
+                setTerminalOutput([]);
+
+                try {
+                    const response = await fetch('http://localhost:3001/api/start-onboarding', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+                    setDeploymentId(data.deploymentId);
+
+                    // Connect to WebSocket
+                    const ws = new WebSocket(`ws://localhost:3001/ws/${data.deploymentId}`);
+                    wsRef.current = ws;
+
+                    ws.onmessage = (event) => {
+                        const message = JSON.parse(event.data);
+                        
+                        if (message.type === 'step') {
+                            setDeploymentStatus(message.step);
+                            setTerminalOutput(prev => [...prev, `\n=== ${message.step} ===\n`]);
+                        } else if (message.type === 'output') {
+                            setTerminalOutput(prev => [...prev, message.data]);
+                        } else if (message.type === 'complete') {
+                            setCurrentStep('completed');
+                            setOutput(message.outputs);
+                        } else if (message.type === 'error') {
+                            setCurrentStep('error');
+                            setError(message.error);
+                        }
+                    };
+
+                    ws.onerror = (error) => {
+                        console.error('WebSocket error:', error);
+                        setError('Connection error. Please check the server.');
+                    };
+
+                } catch (error) {
+                    setError(error.message);
+                    setCurrentStep('error');
+                }
+            };
+
+            const renderForm = () => (
+                <div className="card">
+                    <h2 className="section-title">Azure Configuration</h2>
+                    
+                    {prerequisites && (
+                        <div style={{ marginBottom: '20px' }}>
+                            <h3 style={{ fontSize: '16px', marginBottom: '10px' }}>Prerequisites Check:</h3>
+                            <div className={`prerequisite-check ${prerequisites.azureCli ? 'success' : 'failed'}`}>
+                                <span>Azure CLI</span>
+                                <span className={`status-badge ${prerequisites.azureCli ? 'success' : 'failed'}`}>
+                                    {prerequisites.azureCli ? '✓ Installed' : '✗ Not Found'}
+                                </span>
+                            </div>
+                            <div className={`prerequisite-check ${prerequisites.terraform ? 'success' : 'failed'}`}>
+                                <span>Terraform</span>
+                                <span className={`status-badge ${prerequisites.terraform ? 'success' : 'failed'}`}>
+                                    {prerequisites.terraform ? '✓ Installed' : '✗ Not Found'}
+                                </span>
+                            </div>
+                            <div className={`prerequisite-check ${prerequisites.azureLogin ? 'success' : 'failed'}`}>
+                                <span>Azure Login Status</span>
+                                <span className={`status-badge ${prerequisites.azureLogin ? 'success' : 'failed'}`}>
+                                    {prerequisites.azureLogin ? '✓ Logged In' : '✗ Not Logged In'}
+                                </span>
+                            </div>
+                            {!prerequisites.azureLogin && (
+                                <div className="alert alert-warning">
+                                    Please run <code>az login</code> in your terminal before starting the onboarding process.
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid-2">
+                            <div className="form-group">
+                                <label htmlFor="subscriptionId">Azure Subscription ID *</label>
+                                <input
+                                    type="text"
+                                    id="subscriptionId"
+                                    name="subscriptionId"
+                                    value={formData.subscriptionId}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                />
+                                <small>Found in Azure Portal → Subscriptions</small>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="tenantId">Azure Tenant ID *</label>
+                                <input
+                                    type="text"
+                                    id="tenantId"
+                                    name="tenantId"
+                                    value={formData.tenantId}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                />
+                                <small>Found in Azure Portal → Azure Active Directory</small>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="appName">Application Name</label>
+                            <input
+                                type="text"
+                                id="appName"
+                                name="appName"
+                                value={formData.appName}
+                                onChange={handleInputChange}
+                                placeholder="CortexCloudApp"
+                            />
+                            <small>Name for the Azure AD Application</small>
+                        </div>
+
+                        <h2 className="section-title" style={{ marginTop: '30px' }}>Cortex Cloud Configuration</h2>
+
+                        <div className="form-group">
+                            <label htmlFor="cortexApiUrl">Cortex Cloud API URL *</label>
+                            <select
+                                id="cortexApiUrl"
+                                name="cortexApiUrl"
+                                value={formData.cortexApiUrl}
+                                onChange={handleInputChange}
+                                required
+                            >
+                                <option value="https://api.prismacloud.io">Americas - https://api.prismacloud.io</option>
+                                <option value="https://api.eu.prismacloud.io">Europe - https://api.eu.prismacloud.io</option>
+                                <option value="https://api.anz.prismacloud.io">Asia Pacific - https://api.anz.prismacloud.io</option>
+                                <option value="https://api.sg.prismacloud.io">Singapore - https://api.sg.prismacloud.io</option>
+                                <option value="https://api.uk.prismacloud.io">UK - https://api.uk.prismacloud.io</option>
+                            </select>
+                            <small>Select your Cortex Cloud region</small>
+                        </div>
+
+                        <div className="grid-2">
+                            <div className="form-group">
+                                <label htmlFor="cortexAccessKey">Cortex Access Key *</label>
+                                <input
+                                    type="text"
+                                    id="cortexAccessKey"
+                                    name="cortexAccessKey"
+                                    value={formData.cortexAccessKey}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="Your Cortex access key"
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="cortexSecretKey">Cortex Secret Key *</label>
+                                <input
+                                    type="password"
+                                    id="cortexSecretKey"
+                                    name="cortexSecretKey"
+                                    value={formData.cortexSecretKey}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="Your Cortex secret key"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="azureAccountName">Azure Account Name</label>
+                            <input
+                                type="text"
+                                id="azureAccountName"
+                                name="azureAccountName"
+                                value={formData.azureAccountName}
+                                onChange={handleInputChange}
+                                placeholder="Azure-Prod"
+                            />
+                            <small>Display name in Cortex Cloud</small>
+                        </div>
+
+                        <h2 className="section-title" style={{ marginTop: '30px' }}>Cortex Cloud Feature Configuration</h2>
+                        <p style={{ marginBottom: '20px', color: '#666', fontSize: '14px' }}>
+                            Select which Cortex Cloud security features to enable for this Azure subscription.
+                        </p>
+
+                        <div className="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="cloudVisibility"
+                                name="feature_cloudVisibility"
+                                checked={formData.features.cloudVisibility}
+                                onChange={handleInputChange}
+                            />
+                            <label htmlFor="cloudVisibility">
+                                <strong>Cloud Visibility Compliance and Governance</strong>
+                                <small style={{ display: 'block', fontWeight: 'normal', color: '#666' }}>
+                                    Basic resource discovery and compliance monitoring (Requires: Reader role)
+                                </small>
+                            </label>
+                        </div>
+
+                        <div className="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="agentlessScanning"
+                                name="feature_agentlessScanning"
+                                checked={formData.features.agentlessScanning}
+                                onChange={handleInputChange}
+                            />
+                            <label htmlFor="agentlessScanning">
+                                <strong>Agentless Scanning</strong>
+                                <small style={{ display: 'block', fontWeight: 'normal', color: '#666' }}>
+                                    VM and container vulnerability scanning via snapshots (Requires: Reader + Disk access)
+                                </small>
+                            </label>
+                        </div>
+
+                        <div className="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="serverlessScanning"
+                                name="feature_serverlessScanning"
+                                checked={formData.features.serverlessScanning}
+                                onChange={handleInputChange}
+                            />
+                            <label htmlFor="serverlessScanning">
+                                <strong>Serverless Function Scanning</strong>
+                                <small style={{ display: 'block', fontWeight: 'normal', color: '#666' }}>
+                                    Scan Azure Functions for vulnerabilities (Requires: Reader role)
+                                </small>
+                            </label>
+                        </div>
+
+                        <div className="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="agentBasedProtection"
+                                name="feature_agentBasedProtection"
+                                checked={formData.features.agentBasedProtection}
+                                onChange={handleInputChange}
+                            />
+                            <label htmlFor="agentBasedProtection">
+                                <strong>Agent-Based Workload Protection</strong>
+                                <small style={{ display: 'block', fontWeight: 'normal', color: '#666' }}>
+                                    Install and manage Defender agents (Requires: Contributor role on targeted resources)
+                                </small>
+                            </label>
+                        </div>
+
+                        <div className="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="remediation"
+                                name="feature_remediation"
+                                checked={formData.features.remediation}
+                                onChange={handleInputChange}
+                            />
+                            <label htmlFor="remediation">
+                                <strong>Remediation</strong>
+                                <small style={{ display: 'block', fontWeight: 'normal', color: '#666' }}>
+                                    Auto-remediate security findings (Requires: Contributor role on specific resources)
+                                </small>
+                            </label>
+                        </div>
+
+                        <h2 className="section-title" style={{ marginTop: '30px' }}>Azure Infrastructure Options</h2>
+
+                        <div className="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="monitorFlowLogs"
+                                name="monitorFlowLogs"
+                                checked={formData.monitorFlowLogs}
+                                onChange={handleInputChange}
+                            />
+                            <label htmlFor="monitorFlowLogs">Enable Network Flow Logs Monitoring</label>
+                        </div>
+
+                        <h2 className="section-title" style={{ marginTop: '30px' }}>Additional Settings</h2>
+
+                        <div className="grid-2">
+                            <div className="form-group">
+                                <label htmlFor="environment">Environment</label>
+                                <select
+                                    id="environment"
+                                    name="environment"
+                                    value={formData.environment}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="prod">Production</option>
+                                    <option value="dev">Development</option>
+                                    <option value="staging">Staging</option>
+                                    <option value="test">Test</option>
+                                </select>
+                            </div>
+
+                            <div className="form-group">
+                                <label htmlFor="azureRegion">Azure Region</label>
+                                <select
+                                    id="azureRegion"
+                                    name="azureRegion"
+                                    value={formData.azureRegion}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="eastus">East US</option>
+                                    <option value="westus">West US</option>
+                                    <option value="centralus">Central US</option>
+                                    <option value="westeurope">West Europe</option>
+                                    <option value="northeurope">North Europe</option>
+                                    <option value="southeastasia">Southeast Asia</option>
+                                    <option value="eastasia">East Asia</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="logRetentionDays">Log Retention Days</label>
+                            <input
+                                type="number"
+                                id="logRetentionDays"
+                                name="logRetentionDays"
+                                value={formData.logRetentionDays}
+                                onChange={handleInputChange}
+                                min="30"
+                                max="730"
+                            />
+                            <small>Number of days to retain logs (30-730 days)</small>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            className="button"
+                            disabled={!prerequisites?.azureCli || !prerequisites?.terraform || !prerequisites?.azureLogin}
+                        >
+                            Start Onboarding Process
+                        </button>
+                    </form>
+                </div>
+            );
+
+            const renderDeploying = () => (
+                <div className="card">
+                    <h2 className="section-title">Deployment in Progress</h2>
+                    
+                    <div className="alert alert-info">
+                        <strong>Deployment ID:</strong> {deploymentId}
+                    </div>
+
+                    {deploymentStatus && (
+                        <div className="progress-step active">
+                            {deploymentStatus}
+                        </div>
+                    )}
+
+                    <div className="loading-spinner"></div>
+
+                    <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>Deployment Output:</h3>
+                    <div className="output-terminal">
+                        {terminalOutput.join('')}
+                    </div>
+                </div>
+            );
+
+            const renderCompleted = () => (
+                <div className="card">
+                    <h2 className="section-title">✓ Deployment Completed Successfully</h2>
+                    
+                    <div className="alert alert-success">
+                        Your Azure subscription has been successfully onboarded to Cortex Cloud!
+                    </div>
+
+                    <h3 style={{ marginTop: '20px', marginBottom: '15px' }}>Deployment Outputs:</h3>
+
+                    {output && (
+                        <>
+                            {output.application_id && (
+                                <div className="output-box">
+                                    <h4>Application (Client) ID:</h4>
+                                    <code>{output.application_id.value}</code>
+                                </div>
+                            )}
+
+                            {output.application_secret && (
+                                <div className="output-box">
+                                    <h4>Application Secret:</h4>
+                                    <code>{output.application_secret.value}</code>
+                                </div>
+                            )}
+
+                            {output.service_principal_object_id && (
+                                <div className="output-box">
+                                    <h4>Service Principal Object ID:</h4>
+                                    <code>{output.service_principal_object_id.value}</code>
+                                </div>
+                            )}
+
+                            {output.tenant_id && (
+                                <div className="output-box">
+                                    <h4>Tenant ID:</h4>
+                                    <code>{output.tenant_id.value}</code>
+                                </div>
+                            )}
+                        </>
+                    )}
+
+                    <div className="alert alert-warning" style={{ marginTop: '20px' }}>
+                        <strong>Important:</strong> Save these credentials securely. You'll need them to configure Cortex Cloud.
+                    </div>
+
+                    <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>Full Deployment Log:</h3>
+                    <div className="output-terminal">
+                        {terminalOutput.join('')}
+                    </div>
+
+                    <button 
+                        className="button" 
+                        style={{ marginTop: '20px' }}
+                        onClick={() => window.location.reload()}
+                    >
+                        Start New Deployment
+                    </button>
+                </div>
+            );
+
+            const renderError = () => (
+                <div className="card">
+                    <h2 className="section-title">✗ Deployment Failed</h2>
+                    
+                    <div className="alert alert-danger">
+                        <strong>Error:</strong> {error}
+                    </div>
+
+                    <h3 style={{ marginTop: '20px', marginBottom: '10px' }}>Deployment Log:</h3>
+                    <div className="output-terminal">
+                        {terminalOutput.join('')}
+                    </div>
+
+                    <button 
+                        className="button button-secondary" 
+                        style={{ marginTop: '20px' }}
+                        onClick={() => {
+                            setCurrentStep('form');
+                            setError('');
+                            setTerminalOutput([]);
+                        }}
+                    >
+                        Back to Form
+                    </button>
+                </div>
+            );
+
+            return (
+                <div className="container">
+                    <div className="header">
+                        <h1>🔐 Azure Cortex Cloud Onboarding</h1>
+                        <p>Automated Azure subscription onboarding to Palo Alto Networks Cortex Cloud</p>
+                    </div>
+
+                    {currentStep === 'form' && renderForm()}
+                    {currentStep === 'deploying' && renderDeploying()}
+                    {currentStep === 'completed' && renderCompleted()}
+                    {currentStep === 'error' && renderError()}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

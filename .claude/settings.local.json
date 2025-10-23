@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/OneDrive/Desktop/**)",
+      "WebFetch(domain:docs-cortex.paloaltonetworks.com)",
+      "WebSearch",
+      "Bash(npm install:*)",
+      "Bash(node:*)",
+      "Bash(source ~/.zshrc)",
+      "Bash(echo:*)",
+      "mcp__playwright__browser_navigate",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(chmod:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash(xargs:*)",
+      "Read(//mnt/d/Dropbox/GitHub_Repos/Projects/**)",
+      "Bash(terraform version:*)",
+      "Bash(terraform validate:*)",
+      "Bash(./validate-migration.sh:*)",
+      "Bash(terraform fmt:*)",
+      "Bash(terraform init:*)",
+      "Bash(terraform plan:*)",
+      "Bash(tee:*)",
+      "Read(//mnt/d/Dropbox/Downloads/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

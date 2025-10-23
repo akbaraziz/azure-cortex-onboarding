@@ -1,0 +1,65 @@
+[0m[1mvar.cortex_access_key[0m
+  Cortex Cloud Access Key
+
+  [1mEnter a value:[0m [0m[0m[1mvar.cortex_api_url[0m
+  Cortex Cloud API URL (e.g., https://api.prismacloud.io)
+
+  [1mEnter a value:[0m [0m[0m[1mvar.cortex_secret_key[0m
+  Cortex Cloud Secret Key
+
+  [1mEnter a value:[0m [0m[0m[1mvar.subscription_id[0m
+  Azure Subscription ID
+
+  [1mEnter a value:[0m [0m[0m[1mvar.tenant_id[0m
+  Azure Tenant ID
+
+  [1mEnter a value:[0m [0m[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mNo value for required variable[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 1:
+[31m│[0m [0m   1: [4mvariable "subscription_id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mThe root module input variable "subscription_id" is not set, and has no
+[31m│[0m [0mdefault value. Use a -var or -var-file command line argument to provide a
+[31m│[0m [0mvalue for this variable.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mNo value for required variable[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 6:
+[31m│[0m [0m   6: [4mvariable "tenant_id"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mThe root module input variable "tenant_id" is not set, and has no default
+[31m│[0m [0mvalue. Use a -var or -var-file command line argument to provide a value for
+[31m│[0m [0mthis variable.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mNo value for required variable[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 17:
+[31m│[0m [0m  17: [4mvariable "cortex_api_url"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mThe root module input variable "cortex_api_url" is not set, and has no
+[31m│[0m [0mdefault value. Use a -var or -var-file command line argument to provide a
+[31m│[0m [0mvalue for this variable.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mNo value for required variable[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 22:
+[31m│[0m [0m  22: [4mvariable "cortex_access_key"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mThe root module input variable "cortex_access_key" is not set, and has no
+[31m│[0m [0mdefault value. Use a -var or -var-file command line argument to provide a
+[31m│[0m [0mvalue for this variable.
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1mNo value for required variable[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  on variables.tf line 28:
+[31m│[0m [0m  28: [4mvariable "cortex_secret_key"[0m {[0m
+[31m│[0m [0m
+[31m│[0m [0mThe root module input variable "cortex_secret_key" is not set, and has no
+[31m│[0m [0mdefault value. Use a -var or -var-file command line argument to provide a
+[31m│[0m [0mvalue for this variable.
+[31m╵[0m[0m

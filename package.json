@@ -1,0 +1,36 @@
+{
+  "name": "azure-cortex-onboarding-ui",
+  "version": "1.0.1",
+  "description": "Web UI for Azure Cortex Cloud Onboarding",
+  "main": "server.js",
+  "scripts": {
+    "prestart": "npm run version:bump",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "prebuild": "npm run version:bump",
+    "build": "echo 'Build complete - Version updated'",
+    "version:bump": "node scripts/bump-version.js",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version"
+  },
+  "keywords": [
+    "azure",
+    "cortex",
+    "onboarding",
+    "terraform"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "uuid": "^9.0.1",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@mendable/firecrawl-js": "^4.4.1",
+    "nodemon": "^3.0.1"
+  }
+}
