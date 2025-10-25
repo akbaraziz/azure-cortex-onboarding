@@ -1,1 +1,3 @@
 2025-10-23T18:06:19.174Z | 1.0.0 → 1.0.1 (patch)
+2025-10-23T21:25:57.047Z | 1.0.1 → 1.0.2 (patch)
+2025-10-24T00:00:00.000Z | 1.0.2 → 1.0.3 (patch) - Updated Cortex Cloud API regional endpoints from 5 to 16 regions based on latest official documentation (https://pan.dev/prisma-cloud/api/cspm/api-urls/). Added support for: US 2-4, Canada, China, Europe 2, France, US Government, India, Indonesia, and Japan regions.

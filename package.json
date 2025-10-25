@@ -1,6 +1,6 @@
 {
   "name": "azure-cortex-onboarding-ui",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Web UI for Azure Cortex Cloud Onboarding",
   "main": "server.js",
   "scripts": {
