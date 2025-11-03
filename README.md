@@ -10,6 +10,7 @@ A modern web-based user interface for automating Azure subscription onboarding t
 - 📊 **Live Terminal Output** - See Terraform execution in real-time
 - ✅ **Deployment Results** - Clear display of credentials and outputs
 - 🔐 **Secure** - Handles sensitive credentials properly
+- 📚 **Context7 MCP** - Automatic documentation lookup for Azure, Terraform, and Node.js
 
 ## Architecture
 
@@ -398,6 +399,37 @@ For issues related to:
 - **Terraform**: Review `.terraform` directory and state files
 - **Azure**: Check Azure Portal activity logs
 - **Cortex Cloud**: Contact Palo Alto Networks support
+
+## Context7 MCP Server
+
+This project includes **Context7 MCP** (Model Context Protocol) for automatic documentation lookup.
+
+### What It Does
+
+Context7 automatically provides documentation for:
+- **Azure CLI** commands and parameters
+- **Terraform** resources (azurerm, azuread providers)
+- **Node.js** packages (express, ws, uuid, etc.)
+- **Best practices** and usage examples
+
+### How to Use
+
+Simply mention a library or ask about an API:
+```
+"Show me azurerm_eventhub documentation"
+"How do I use az provider register?"
+"What are the parameters for WebSocket in Express?"
+```
+
+Context7 automatically fetches and provides the relevant documentation.
+
+### Configuration
+
+Context7 is pre-configured in `.claude/settings.local.json` with permissions:
+- `mcp__context7__resolve-library-id`
+- `mcp__context7__get-library-docs`
+
+**Full Documentation:** See `.claude/CONTEXT7_SETUP.md`
 
 ## License
 

@@ -48,6 +48,34 @@ AI Assistant guidelines for working on the Azure Cortex Cloud onboarding automat
 
 ---
 
+## 🔧 Development Tools & MCP Servers
+
+### Context7 MCP Server (Documentation Lookup)
+
+**Status:** ✅ **ENABLED** - Configured in `.claude/settings.local.json`
+
+**Purpose:** Automatic library documentation and API reference lookup
+
+**Usage:**
+Context7 automatically provides documentation when you mention libraries or ask about APIs. No special syntax required.
+
+**Relevant for This Project:**
+- **Azure CLI**: Command syntax, parameters, examples
+- **Terraform**: azurerm/azuread provider documentation
+- **Node.js**: express, ws, uuid package documentation
+- **Best Practices**: Up-to-date recommendations
+
+**Manual Queries:**
+```bash
+"Show me azurerm_eventhub resource documentation"
+"How do I use az provider register?"
+"Get Express.js WebSocket setup guide"
+```
+
+**Full Documentation:** See `.claude/CONTEXT7_SETUP.md`
+
+---
+
 ## 📋 Project Architecture
 
 ```
