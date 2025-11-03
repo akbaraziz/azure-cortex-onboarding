@@ -302,25 +302,32 @@ The backend orchestrates the following steps:
    ./check-prerequisites.sh
    ```
 
-2. **Check Azure Login:**
+2. **Validate Permissions:** ⭐ **NEW**
+   ```bash
+   ./scripts/validate-permissions.sh
+   ```
+
+3. **Check Azure Login:**
    ```bash
    az account show
    ```
 
-3. **Verify Resource Providers:**
+4. **Verify Resource Providers:**
    ```bash
    az provider show --namespace Microsoft.Insights --query "registrationState"
    az provider show --namespace Microsoft.Aadiam --query "registrationState"
    ```
 
-4. **View Server Logs:**
+5. **View Server Logs:**
    - Check the terminal where `npm run dev` is running
    - Look for detailed error messages
 
 ### Getting Help
 
+- **Cortex-Specific Errors:** See [CORTEX_TROUBLESHOOTING_GUIDE.md](./CORTEX_TROUBLESHOOTING_GUIDE.md) ⭐ **NEW**
 - **Prerequisites Issues:** See [PREREQUISITES.md](./PREREQUISITES.md)
-- **Deployment Errors:** See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+- **General Troubleshooting:** See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
+- **Permission Validation:** Run `./scripts/validate-permissions.sh`
 - **API Documentation:** See [CORTEX_CLOUD_ONBOARDING_API.md](./CORTEX_CLOUD_ONBOARDING_API.md)
 - **Palo Alto Support:** Contact with deployment ID and error messages
 

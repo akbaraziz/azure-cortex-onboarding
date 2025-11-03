@@ -38,7 +38,7 @@ resource "azurerm_eventhub_namespace" "audit_logs" {
   name                = "eh-cortex-audit-${var.environment}"
   location            = azurerm_resource_group.cortex.location
   resource_group_name = azurerm_resource_group.cortex.name
-  sku                 = "Standard"
+  sku                 = var.event_hub_sku
   capacity            = 1
 
   tags = merge(
@@ -56,7 +56,7 @@ resource "azurerm_eventhub" "azure_audit" {
   name                = "azure-audit-logs"
   namespace_name      = azurerm_eventhub_namespace.audit_logs[0].name
   resource_group_name = azurerm_resource_group.cortex.name
-  partition_count     = 2
+  partition_count     = var.event_hub_partition_count
   message_retention   = 1
 }
 

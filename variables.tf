@@ -107,6 +107,28 @@ variable "log_retention_days" {
   default     = 30
 }
 
+variable "event_hub_partition_count" {
+  description = "Number of partitions for Event Hub (Standard tier: max 32, Premium/Dedicated: configurable). Use 4 for Standard tier to avoid partition count errors."
+  type        = number
+  default     = 4
+
+  validation {
+    condition     = var.event_hub_partition_count >= 1 && var.event_hub_partition_count <= 32
+    error_message = "Event Hub partition count must be between 1 and 32 for Standard tier. For Premium/Dedicated tiers, partition count can be increased."
+  }
+}
+
+variable "event_hub_sku" {
+  description = "Event Hub namespace SKU (Basic, Standard, Premium, or Dedicated)"
+  type        = string
+  default     = "Standard"
+
+  validation {
+    condition     = contains(["Basic", "Standard", "Premium", "Dedicated"], var.event_hub_sku)
+    error_message = "Event Hub SKU must be one of: Basic, Standard, Premium, Dedicated."
+  }
+}
+
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
