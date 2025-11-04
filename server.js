@@ -74,8 +74,9 @@ function authenticateToken(req, res, next) {
 }
 
 // CORS Configuration
+const NODE_ENV = process.env.NODE_ENV || 'development';
 const allowedOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',')
+  ? process.env.ALLOWED_ORIGINS.split(',').map(origin => origin.trim())
   : ['http://localhost:3001', 'http://127.0.0.1:3001'];
 
 const corsOptions = {
@@ -83,9 +84,21 @@ const corsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
 
+    // In development mode, allow all localhost and 127.0.0.1 origins with any port
+    if (NODE_ENV === 'development') {
+      const localhostRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+      if (localhostRegex.test(origin)) {
+        console.log(`[CORS] ✓ Development mode: Allowed origin ${origin}`);
+        return callback(null, true);
+      }
+    }
+
+    // Check against explicitly allowed origins
     if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log(`[CORS] ✓ Allowed origin ${origin}`);
       callback(null, true);
     } else {
+      console.warn(`[CORS] ✗ Blocked origin ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
