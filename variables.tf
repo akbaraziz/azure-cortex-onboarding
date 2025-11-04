@@ -166,3 +166,15 @@ variable "custom_role_actions" {
     "Microsoft.ContainerInstance/containerGroups/containers/exec/action"
   ]
 }
+
+variable "enable_flow_logs" {
+  description = "Enable network flow logs monitoring (creates Log Analytics Workspace)"
+  type        = bool
+  default     = true
+}
+
+variable "create_custom_role" {
+  description = "Create custom RBAC role for Cortex Cloud (automatically enabled when any Cortex feature is enabled)"
+  type        = bool
+  default     = true
+}

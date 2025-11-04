@@ -49,3 +49,8 @@ Thumbs.db
 *.crt
 credentials.json
 secrets.json
+CLAUDE.md
+FIRECRAWL_SETUP.md
+MIGRATION_*.md
+SETUP_COMPLETE.md
+.claude/*

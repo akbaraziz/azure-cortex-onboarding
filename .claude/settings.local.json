@@ -28,7 +28,11 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(test:*)",
-      "WebFetch(domain:pan.dev)"
+      "WebFetch(domain:pan.dev)",
+      "Skill(document-skills:pdf)",
+      "WebFetch(domain:knowledgebase.paloaltonetworks.com)",
+      "WebFetch(domain:docs.paloaltonetworks.com)",
+      "Bash(PORT=5174 npm run dev:*)"
     ],
     "deny": [],
     "ask": []
