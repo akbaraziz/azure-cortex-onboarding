@@ -299,6 +299,42 @@
             color: white;
         }
 
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #004085;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-box ul {
+            margin: 8px 0 0 20px;
+            padding: 0;
+        }
+
+        .info-box li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .info-box code {
+            background: #cce5ff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
         .loading-spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #667eea;
@@ -333,7 +369,7 @@
                 subscriptionId: '',
                 tenantId: '',
                 appName: 'CortexCloudApp',
-                cortexApiUrl: 'https://api.prismacloud.io',
+                cortexApiUrl: '',
                 cortexAccessKey: '',
                 cortexSecretKey: '',
                 azureAccountName: 'Azure-Prod',
@@ -365,7 +401,7 @@
 
             const checkPrerequisites = async () => {
                 try {
-                    const response = await fetch('http://localhost:3001/api/check-prerequisites');
+                    const response = await fetch(`${window.location.protocol}//${window.location.host}/api/check-prerequisites`);
                     const data = await response.json();
                     setPrerequisites(data);
                 } catch (error) {
@@ -401,7 +437,7 @@
                 setTerminalOutput([]);
 
                 try {
-                    const response = await fetch('http://localhost:3001/api/start-onboarding', {
+                    const response = await fetch(`${window.location.protocol}//${window.location.host}/api/start-onboarding`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -413,7 +449,8 @@
                     setDeploymentId(data.deploymentId);
 
                     // Connect to WebSocket
-                    const ws = new WebSocket(`ws://localhost:3001/ws/${data.deploymentId}`);
+                    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                    const ws = new WebSocket(`${wsProtocol}//${window.location.host}/ws/${data.deploymentId}`);
                     wsRef.current = ws;
 
                     ws.onmessage = (event) => {
@@ -525,31 +562,28 @@
 
                         <div className="form-group">
                             <label htmlFor="cortexApiUrl">Cortex Cloud API URL *</label>
-                            <select
+                            <input
+                                type="text"
                                 id="cortexApiUrl"
                                 name="cortexApiUrl"
                                 value={formData.cortexApiUrl}
                                 onChange={handleInputChange}
                                 required
-                            >
-                                <option value="https://api.prismacloud.io">Americas (US) - https://api.prismacloud.io</option>
-                                <option value="https://api2.prismacloud.io">Americas (US 2) - https://api2.prismacloud.io</option>
-                                <option value="https://api3.prismacloud.io">Americas (US 3) - https://api3.prismacloud.io</option>
-                                <option value="https://api4.prismacloud.io">Americas (US 4) - https://api4.prismacloud.io</option>
-                                <option value="https://api.anz.prismacloud.io">Australia/New Zealand - https://api.anz.prismacloud.io</option>
-                                <option value="https://api.ca.prismacloud.io">Canada - https://api.ca.prismacloud.io</option>
-                                <option value="https://api.prismacloud.cn">China - https://api.prismacloud.cn</option>
-                                <option value="https://api.eu.prismacloud.io">Europe - https://api.eu.prismacloud.io</option>
-                                <option value="https://api2.eu.prismacloud.io">Europe 2 - https://api2.eu.prismacloud.io</option>
-                                <option value="https://api.fr.prismacloud.io">France - https://api.fr.prismacloud.io</option>
-                                <option value="https://api.gov.prismacloud.io">US Government - https://api.gov.prismacloud.io</option>
-                                <option value="https://api.ind.prismacloud.io">India - https://api.ind.prismacloud.io</option>
-                                <option value="https://api.id.prismacloud.io">Indonesia - https://api.id.prismacloud.io</option>
-                                <option value="https://api.jp.prismacloud.io">Japan - https://api.jp.prismacloud.io</option>
-                                <option value="https://api.sg.prismacloud.io">Singapore - https://api.sg.prismacloud.io</option>
-                                <option value="https://api.uk.prismacloud.io">UK - https://api.uk.prismacloud.io</option>
-                            </select>
-                            <small>Select your Cortex Cloud region (ordered alphabetically)</small>
+                                placeholder="https://api-customer.xdr.us.paloaltonetworks.com"
+                            />
+                            <div className="info-box">
+                                <div className="info-box-title">ℹ️ How to find your Cortex Cloud API URL:</div>
+                                <ul>
+                                    <li><strong>From Cortex Cloud Console:</strong>
+                                        <ol style={{ marginTop: '6px', marginLeft: '20px' }}>
+                                            <li>Navigate to <strong>Settings → Configurations → Integrations → API Keys</strong></li>
+                                            <li>Look to the top right and select <strong>"Copy API URL"</strong></li>
+                                        </ol>
+                                    </li>
+                                    <li><strong>URL Format:</strong> Your API URL follows the pattern <code>https://api-&#123;fqdn&#125;</code> where the FQDN is unique to your tenant</li>
+                                    <li><strong>Documentation:</strong> Visit <a href="https://docs-cortex.paloaltonetworks.com/r/Cortex-Cloud-Platform-APIs/Cortex-Cloud-APIs" target="_blank" rel="noopener noreferrer">Cortex Cloud Platform APIs</a> for more details</li>
+                                </ul>
+                            </div>
                         </div>
 
                         <div className="grid-2">
