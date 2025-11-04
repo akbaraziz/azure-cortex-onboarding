@@ -288,5 +288,63 @@ For questions or issues related to this update, please review:
 - DEPLOYMENT_GUIDE.md for detailed deployment instructions
 - Official Prisma Cloud documentation at https://pan.dev/
 
-**Last Updated:** October 24, 2025
-**Version:** 1.0.3
+---
+
+## 11. Latest Update: Custom API URL Input (v1.0.4)
+
+**Date:** November 4, 2025
+
+### Change Summary
+Replaced the predefined regional URL dropdown with a custom text input field to support tenant-specific Cortex Cloud API URLs.
+
+### Rationale
+Each Cortex Cloud tenant has a unique FQDN (Fully Qualified Domain Name) assigned during provisioning. The previous dropdown approach with predefined regional URLs was insufficient because:
+- ❌ Not all tenants use the standard regional URLs
+- ❌ Customers have unique FQDNs like `https://api-customer.xdr.us.paloaltonetworks.com`
+- ❌ No API exists to programmatically discover tenant URLs
+- ✅ Users must obtain their URL from the Cortex Cloud console
+
+### Changes Made
+
+#### 1. UI Changes (public/index.html)
+- **Removed:** Dropdown with 16 predefined Prisma Cloud regional URLs
+- **Added:** Text input field for custom API URL entry
+- **Added:** Informative help box with step-by-step instructions:
+  1. Navigate to Settings → Configurations → Integrations → API Keys
+  2. Look to the top right and select "Copy API URL"
+- **Updated:** API endpoints to use dynamic URLs instead of hardcoded port 3001
+- **Fixed:** Content Security Policy to allow React scripts from unpkg.com
+
+#### 2. Server Changes (server.js)
+- **Added:** Helmet CSP configuration to allow external scripts
+- **Added:** WebSocket protocol detection (ws/wss)
+- **Added:** Dynamic host/port handling
+
+#### 3. Documentation Updates
+- **README.md:** Updated Cortex Cloud Configuration section with new instructions
+- **QUICKSTART.md:** Replaced "select your region from dropdown" with console instructions
+- **CORTEX_UPDATE_SUMMARY.md:** Added this section documenting the change
+
+### How Users Find Their API URL
+
+Users can find their tenant-specific Cortex Cloud API URL by:
+1. Logging into their Cortex Cloud console
+2. Navigating to **Settings → Configurations → Integrations → API Keys**
+3. Looking to the top right and selecting **"Copy API URL"**
+
+The URL follows the pattern: `https://api-{fqdn}` where the FQDN is unique to their tenant.
+
+### Migration Impact
+- **Backward Compatible:** Yes
+- **User Action Required:** Users must now enter their custom URL instead of selecting from dropdown
+- **Existing Deployments:** Unaffected
+- **Data Loss:** None
+
+### References
+- [Cortex Cloud Platform APIs Documentation](https://docs-cortex.paloaltonetworks.com/r/Cortex-Cloud-Platform-APIs/Cortex-Cloud-APIs)
+- [Cortex XDR API Reference](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR-REST-API)
+
+---
+
+**Last Updated:** November 4, 2025
+**Version:** 1.0.4

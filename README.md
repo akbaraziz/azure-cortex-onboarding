@@ -141,12 +141,13 @@ All must be green before proceeding.
 - **Application Name**: Name for the service principal (default: CortexCloudApp)
 
 #### Cortex Cloud Configuration
-- **API URL**: Select your region:
-  - Americas: `https://api.prismacloud.io`
-  - Europe: `https://api.eu.prismacloud.io`
-  - Asia Pacific: `https://api.anz.prismacloud.io`
-  - Singapore: `https://api.sg.prismacloud.io`
-  - UK: `https://api.uk.prismacloud.io`
+- **API URL**: Your tenant-specific Cortex Cloud API URL (e.g., `https://api-customer.xdr.us.paloaltonetworks.com`)
+  - **How to find it**:
+    1. Log into your Cortex Cloud console
+    2. Navigate to **Settings → Configurations → Integrations → API Keys**
+    3. Look to the top right and select **"Copy API URL"**
+  - Each tenant has a unique FQDN (Fully Qualified Domain Name)
+  - See [Cortex Cloud Platform APIs](https://docs-cortex.paloaltonetworks.com/r/Cortex-Cloud-Platform-APIs/Cortex-Cloud-APIs) for more details
 - **Access Key**: Your Cortex Cloud access key
 - **Secret Key**: Your Cortex Cloud secret key
 - **Account Name**: Display name in Cortex (e.g., Azure-Prod)

@@ -68,7 +68,7 @@ Open your browser to: **http://localhost:3001**
 - Tenant ID (from Azure Portal → Azure AD → Overview)
 
 **Cortex Cloud:**
-- API URL (select your region from dropdown)
+- API URL (your tenant-specific URL - find it in Cortex console: Settings → Configurations → Integrations → API Keys → Copy API URL)
 - Access Key
 - Secret Key
 
